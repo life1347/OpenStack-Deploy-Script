@@ -603,6 +603,7 @@ function cinder_setup() {
 function horizon_setup() {
     # install horizon packages
     install_package openstack-dashboard memcached
+    remove_package openstack-dashboard-ubuntu-theme
 
     # set configuration file
     cp $BASE_DIR/conf/etc.openstack-dashboard/local_settings.py /etc/openstack-dashboard/local_settings.py
