@@ -381,7 +381,7 @@ Run this script, all of conpornents will be built.
 
     controller% sudo ./setup.sh controller
     network   % sudo ./setup.sh network
-    compute   % sudo ./setup.sh comupte
+    compute   % sudo ./setup.sh compute
 
 That's all and You've done. :D Now you can access to Horizon
 (http://${CONTROLLER_NODE_PUB_IP}/horizon/) with user 'demo', password 'demo'.
@@ -524,7 +524,7 @@ script. Other NIC will lost connectivity.
 Run this script, all of conpornents will be built.
 
     controller% sudo ./setup.sh controller
-    compute   % sudo ./setup.sh comupte
+    compute   % sudo ./setup.sh compute
 
 That's all and You've done. :D Now you can access to Horizon
 (http://${CONTROLLER_NODE_PUB_IP}/horizon/) with user 'demo', password 'demo'.
