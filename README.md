@@ -317,15 +317,12 @@ Set up NICs for network node.
     auto lo
     iface lo inet loopback
     
-    # for API network
+    # for management network
     auto eth0
     iface eth0 inet static
-        up ifconfig $IFACE 0.0.0.0 up
-        up ip link set $IFACE promisc on
-        down ip link set $IFACE promisc off
-        down ifconfig $IFACE down
-        address 10.200.9.11
+        address 10.200.10.11
         netmask 255.255.255.0
+        gateway 10.200.10.1
         dns-nameservers 8.8.8.8 8.8.4.4
         dns-search example.com
 
@@ -335,14 +332,18 @@ Set up NICs for network node.
         address 172.16.1.11
         netmask 255.255.255.0
 
-    # for management network
+    # for API network
     auto eth2
     iface eth2 inet static
-        address 10.200.10.11
+        up ifconfig $IFACE 0.0.0.0 up
+        up ip link set $IFACE promisc on
+        down ip link set $IFACE promisc off
+        down ifconfig $IFACE down
+        address 10.200.9.11
         netmask 255.255.255.0
-        gateway 10.200.10.1
         dns-nameservers 8.8.8.8 8.8.4.4
         dns-search example.com
+    
 
 and login to network node via eth2 (management network) for executing this
 script. Other NIC will lost connectivity.
