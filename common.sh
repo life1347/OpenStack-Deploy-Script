@@ -668,6 +668,7 @@ function openvswitch_setup() {
 
     ovs-vsctl add-port br-ex ${PUBLICNETWORK_NIC_NETWORK_NODE}
 
-    ip a a ${PUBLICNETWORK_IP_NETWORK_NODE} dev ${PUBLICNETWORK_NIC_NETWORK_NODE}
+    ip a d ${PUBLICNETWORK_IP_NETWORK_NODE} dev ${PUBLICNETWORK_NIC_NETWORK_NODE}
+    ip a a ${PUBLICNETWORK_IP_NETWORK_NODE} dev br-ex
     ip r a default via ${PUBLICNETWORK_IP_GATEWAY} dev br-ex
 }
