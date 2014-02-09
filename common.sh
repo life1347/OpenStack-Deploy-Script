@@ -483,7 +483,7 @@ function compute_nova_setup() {
         libvirt_type='qemu'
     fi
 
-    sed -i "s/$libvirt_type/kvm/g" /etc/nova/nova-compute.conf
+    sed -i -e "s/kvm/${libvirt_type}/g" /etc/nova/nova-compute.conf
 
     # restart all of nova services
     cd /etc/init.d/; for i in $( ls nova-* ); do sudo service $i restart; done
@@ -629,16 +629,12 @@ function scgroup_allow() {
     # switch to 'demo' user
     # We will use 'demo' user to access each API and instances, so it switch to 'demo'
     # user for security group setup.
-    export SERVICE_TOKEN=${SERVICE_TOKEN}
-    export OS_TENANT_NAME=service
-    export OS_USERNAME=${DEMO_USER}
-    export OS_PASSWORD=${DEMO_PASSWORD}
-    export OS_AUTH_URL="http://${KEYSTONE_IP}:5000/v2.0/"
-    export SERVICE_ENDPOINT="http://${KEYSTONE_IP}:35357/v2.0"
-
-    # add SSH, ICMP allow rules which named 'default'
-    nova --no-cache secgroup-add-rule default tcp 22 22 0.0.0.0/0
-    nova --no-cache secgroup-add-rule default icmp -1 -1 0.0.0.0/0
+    #export SERVICE_TOKEN=${SERVICE_TOKEN}
+    #export OS_TENANT_NAME=service
+    #export OS_USERNAME=${DEMO_USER}
+    #export OS_PASSWORD=${DEMO_PASSWORD}
+    #export OS_AUTH_URL="http://${KEYSTONE_IP}:5000/v2.0/"
+    #export SERVICE_ENDPOINT="http://${KEYSTONE_IP}:35357/v2.0"
 
     # switch to 'admin' user
     # this script need 'admin' user, so turn back to admin.
@@ -648,6 +644,10 @@ function scgroup_allow() {
     export OS_PASSWORD=${OS_PASSWORD}
     export OS_AUTH_URL="http://${KEYSTONE_IP}:5000/v2.0/"
     export SERVICE_ENDPOINT="http://${KEYSTONE_IP}:35357/v2.0"
+
+    # add SSH, ICMP allow rules which named 'default'
+    nova --no-cache secgroup-add-rule default tcp 22 22 0.0.0.0/0
+    nova --no-cache secgroup-add-rule default icmp -1 -1 0.0.0.0/0
 }
 
 # --------------------------------------------------------------------------------------

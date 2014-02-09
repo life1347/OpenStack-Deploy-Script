@@ -97,7 +97,6 @@ function controller_quantum_setup() {
 # --------------------------------------------------------------------------------------
 function network_quantum_setup() {
     # install packages
-    install_package mysql-client
     install_package quantum-plugin-openvswitch-agent quantum-dhcp-agent quantum-l3-agent quantum-metadata-agent quantum-lbaas-agent
 
     # set configuration files
