@@ -475,6 +475,7 @@ function compute_nova_setup() {
         "<SERVICE_TENANT_NAME>:${SERVICE_TENANT_NAME}" "<SERVICE_PASSWORD>:${SERVICE_PASSWORD}" \
         "<LOCAL_IP>:${COMPUTE_NODE_IP}" "<CINDER_IP>:${CONTROLLER_NODE_IP}"
     cp $BASE_DIR/conf/etc.nova/nova-compute.conf /etc/nova/nova-compute.conf
+    cp $BASE_DIR/conf/etc.libvirt/qemu.conf /etc/libvirt/qemu.conf
 
     kvm-ok
     if [ $? -eq 0 ] ; then
