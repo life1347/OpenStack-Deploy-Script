@@ -427,8 +427,6 @@ function compute_nova_setup() {
 
     # adding bridge and port
     ovs-vsctl add-br br-int
-    ovs-vsctl add-br br-eth1
-    ovs-vsctl add-port br-eth1 ${DATANETWORK_NIC_COMPUTE_NODE}
 
     #
     # Quantum
@@ -603,7 +601,7 @@ function cinder_setup() {
 function horizon_setup() {
     # install horizon packages
     install_package openstack-dashboard memcached
-    remove_package openstack-dashboard-ubuntu-theme
+    #remove_package openstack-dashboard-ubuntu-theme
 
     # set configuration file
     cp $BASE_DIR/conf/etc.openstack-dashboard/local_settings.py /etc/openstack-dashboard/local_settings.py
@@ -650,10 +648,6 @@ function openvswitch_setup() {
     install_package openvswitch-switch openvswitch-datapath-dkms
     # create bridge interfaces
     ovs-vsctl add-br br-int
-    ovs-vsctl add-br br-eth1
-    if [[ "$1" = "network" ]]; then
-        ovs-vsctl add-port br-eth1 ${DATANETWORK_NIC_NETWORK_NODE}
-    fi
     ovs-vsctl add-br br-ex
     ovs-vsctl add-port br-ex ${PUBLICNETWORK_NIC_NETWORK_NODE}
 }

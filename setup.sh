@@ -50,52 +50,52 @@ fi
 # execute
 # --------------------------------------------------------------------------------------
 
-case "$1" in
-    allinone)
-        check_interface $HOST_IP allinone
-        NOVA_IP=${HOST_IP};                     check_para ${NOVA_IP}
-        CINDER_IP=${HOST_IP};                   check_para ${CINDER_IP}
-        DB_IP=${HOST_IP};                       check_para ${DB_IP}
-        KEYSTONE_IP=${HOST_IP};                 check_para ${KEYSTONE_IP}
-        GLANCE_IP=${HOST_IP};                   check_para ${GLANCE_IP}
-        QUANTUM_IP=${HOST_IP};                  check_para ${QUANTUM_IP}
-        RABBIT_IP=${HOST_IP};                   check_para ${RABBIT_IP}
-        CONTROLLER_NODE_PUB_IP=${HOST_PUB_IP};  check_para ${CONTROLLER_NODE_PUB_IP}
-        CONTROLLER_NODE_IP=${HOST_IP};          check_para ${CONTROLLER_NODE_IP}
-        if [[ "$NETWORK_COMPONENT" = "quantum" ]]; then
-            shell_env allinone
-            init
-            mysql_setup
-            keystone_setup quantum
-            glance_setup
-            os_add
-            openvswitch_setup allinone
-            allinone_quantum_setup
-            allinone_nova_setup
-            cinder_setup allinone
-            horizon_setup
-            create_network
-            scgroup_allow allinone
-        elif [[ "$NETWORK_COMPONENT" = "nova-network" ]]; then
-            shell_env allinone
-            init
-            mysql_setup
-            keystone_setup nova-network
-            glance_setup
-            os_add
-            allinone_nova_setup_nova_network
-            cinder_setup allinone
-            horizon_setup
-            create_network_nova_network
-            scgroup_allow allinone
-        else
-            echo "NETWORK_COMPONENT must be 'quantum' or 'nova-network'."
-            exit 1
-        fi
+init
 
-        printf '\033[0;32m%s\033[0m\n' 'This script was completed. :D'
-        printf '\033[0;34m%s\033[0m\n' 'You have done! Enjoy it. :)))))'
-        ;;
+case "$1" in
+    # allinone)
+    #     check_interface $HOST_IP allinone
+    #     NOVA_IP=${HOST_IP};                     check_para ${NOVA_IP}
+    #     CINDER_IP=${HOST_IP};                   check_para ${CINDER_IP}
+    #     DB_IP=${HOST_IP};                       check_para ${DB_IP}
+    #     KEYSTONE_IP=${HOST_IP};                 check_para ${KEYSTONE_IP}
+    #     GLANCE_IP=${HOST_IP};                   check_para ${GLANCE_IP}
+    #     QUANTUM_IP=${HOST_IP};                  check_para ${QUANTUM_IP}
+    #     RABBIT_IP=${HOST_IP};                   check_para ${RABBIT_IP}
+    #     CONTROLLER_NODE_PUB_IP=${HOST_PUB_IP};  check_para ${CONTROLLER_NODE_PUB_IP}
+    #     CONTROLLER_NODE_IP=${HOST_IP};          check_para ${CONTROLLER_NODE_IP}
+    #     if [[ "$NETWORK_COMPONENT" = "quantum" ]]; then
+    #         shell_env allinone
+    #         mysql_setup
+    #         keystone_setup quantum
+    #         glance_setup
+    #         os_add
+    #         openvswitch_setup allinone
+    #         allinone_quantum_setup
+    #         allinone_nova_setup
+    #         cinder_setup allinone
+    #         horizon_setup
+    #         create_network
+    #         scgroup_allow allinone
+    #     elif [[ "$NETWORK_COMPONENT" = "nova-network" ]]; then
+    #         shell_env allinone
+    #         mysql_setup
+    #         keystone_setup nova-network
+    #         glance_setup
+    #         os_add
+    #         allinone_nova_setup_nova_network
+    #         cinder_setup allinone
+    #         horizon_setup
+    #         create_network_nova_network
+    #         scgroup_allow allinone
+    #     else
+    #         echo "NETWORK_COMPONENT must be 'quantum' or 'nova-network'."
+    #         exit 1
+    #     fi
+
+    #     printf '\033[0;32m%s\033[0m\n' 'This script was completed. :D'
+    #     printf '\033[0;34m%s\033[0m\n' 'You have done! Enjoy it. :)))))'
+    #     ;;
     controller)
         NOVA_IP=${CONTROLLER_NODE_IP};              check_para ${NOVA_IP}
         CINDER_IP=${CONTROLLER_NODE_IP};            check_para ${CINDER_IP}
@@ -106,7 +106,6 @@ case "$1" in
         RABBIT_IP=${CONTROLLER_NODE_IP};            check_para ${RABBIT_IP}
         if [[ "$NETWORK_COMPONENT" = "quantum" ]]; then
             shell_env separate
-            init
             mysql_setup
             keystone_setup quantum controller
             glance_setup
@@ -118,7 +117,6 @@ case "$1" in
             scgroup_allow controller
         elif [[ "$NETWORK_COMPONENT" = "nova-network" ]]; then
             shell_env separate
-            init
             mysql_setup
             keystone_setup nova-network controller
             glance_setup
@@ -147,7 +145,6 @@ case "$1" in
         QUANTUM_IP=${CONTROLLER_NODE_IP};  check_para ${QUANTUM_IP}
         RABBIT_IP=${CONTROLLER_NODE_IP};   check_para ${RABBIT_IP}
         shell_env separate
-        init
         openvswitch_setup network
         network_quantum_setup
         create_network
@@ -165,11 +162,9 @@ case "$1" in
         RABBIT_IP=${CONTROLLER_NODE_IP};   check_para ${RABBIT_IP}
         if [[ "$NETWORK_COMPONENT" = "quantum" ]]; then
             shell_env separate
-            init
             compute_nova_setup
         elif [[ "$NETWORK_COMPONENT" = "nova-network" ]]; then
             shell_env separate
-            init
             compute_nova_setup_nova_network
         else
             echo "NETWORK_COMPONENT must be 'quantum' or 'nova-network'."

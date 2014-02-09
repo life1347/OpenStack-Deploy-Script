@@ -13,21 +13,20 @@ BASE_DIR=`pwd`
 # ---------------------------------------------------------------
 # 1. if you run on one node (all in one), enable these paramters
 # ---------------------------------------------------------------
-#HOST_IP='10.200.10.10'
-#HOST_PUB_IP='10.200.9.10'
-#PUBLICNETWORK_NIC_NETWORK_NODE='eth0'
+HOST_IP='10.200.10.10'
+HOST_PUB_IP='10.200.9.10'
+PUBLICNETWORK_NIC_NETWORK_NODE='eth0'
 # ---------------------------------------------------------------
 # 2. if you run on 3 separated nodes (controller, network, compute),
 #   enable these paramters
 # ---------------------------------------------------------------
-CONTROLLER_NODE_IP='192.168.0.12'
-CONTROLLER_NODE_PUB_IP='10.211.55.78'
-NETWORK_NODE_IP='10.211.55.77'
-COMPUTE_NODE_IP='10.211.55.79'
-# DATANETWORK_NIC is for communcation between compute node & network node 
-DATANETWORK_NIC_NETWORK_NODE='eth1'
-DATANETWORK_NIC_COMPUTE_NODE='eth1'
-PUBLICNETWORK_NIC_NETWORK_NODE='eth2'
+#CONTROLLER_NODE_IP='10.200.10.10'
+#CONTROLLER_NODE_PUB_IP='10.200.9.10'
+#NETWORK_NODE_IP='10.200.10.11'
+#COMPUTE_NODE_IP='10.200.10.12'
+#DATANETWORK_NIC_NETWORK_NODE='eth1'
+#DATANETWORK_NIC_COMPUTE_NODE='eth1'
+#PUBLICNETWORK_NIC_NETWORK_NODE='eth2'
 # ---------------------------------------------------------------
 # 3. if you run on one node (all in one) with nova-network, enable these paramters
 # ---------------------------------------------------------------
@@ -93,12 +92,12 @@ DEMO_PASSWORD='demo'
 # ---------------------------------------------------------------
 # NETWORK_TYPE must be 'vlan' or 'gre'
 NETWORK_TYPE='gre'
-INT_NET_GATEWAY='192.168.0.1'
-INT_NET_RANGE='192.168.0.0/24'
-EXT_NET_GATEWAY='10.211.55.1'
-EXT_NET_START='10.211.55.100'
-EXT_NET_END='10.211.55.150'
-EXT_NET_RANGE='10.211.55.0/24'
+INT_NET_GATEWAY='172.24.17.254'
+INT_NET_RANGE='172.24.17.0/24'
+EXT_NET_GATEWAY='10.200.9.1'
+EXT_NET_START='10.200.9.220'
+EXT_NET_END='10.200.9.229'
+EXT_NET_RANGE='10.200.9.0/24'
 
 # ---------------------------------------------------------------
 # nova-network parameters
