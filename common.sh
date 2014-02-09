@@ -667,4 +667,7 @@ function openvswitch_setup() {
     echo 'down ifconfig $IFACE down' >> /etc/network/interfaces
 
     ovs-vsctl add-port br-ex ${PUBLICNETWORK_NIC_NETWORK_NODE}
+
+    ip a d ${PUBLICNETWORK_IP_NETWORK_NODE} dev ${PUBLICNETWORK_NIC_NETWORK_NODE}
+    ip r a default via ${PUBLICNETWORK_IP_GATEWAY} dev br-ex
 }
