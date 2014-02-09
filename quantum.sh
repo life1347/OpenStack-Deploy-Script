@@ -135,6 +135,10 @@ function network_quantum_setup() {
         exit 1
     fi
 
+    # add ip forward support
+    sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+    sysctl net.ipv4.ip_forward=1
+
     # see BUG https://lists.launchpad.net/openstack/msg23198.html
     # this treat includes secirity problem, but unfortunatly it is needed for quantum now.
     # when you noticed that it is not needed, please comment out these 2 lines.

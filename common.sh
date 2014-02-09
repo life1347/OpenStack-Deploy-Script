@@ -407,7 +407,7 @@ function create_network_nova_network() {
 # --------------------------------------------------------------------------------------
 function compute_nova_setup() {
     # install dependency packages
-    install_package vlan bridge-utils kvm libvirt-bin pm-utils sysfsutils
+    install_package vlan bridge-utils kvm libvirt-bin pm-utils sysfsutils cpu-checker
     restart_service dbus
     sleep 3
     #virsh net-destroy default
@@ -476,6 +476,15 @@ function compute_nova_setup() {
         "<LOCAL_IP>:${COMPUTE_NODE_IP}" "<CINDER_IP>:${CONTROLLER_NODE_IP}"
     cp $BASE_DIR/conf/etc.nova/nova-compute.conf /etc/nova/nova-compute.conf
 
+    kvm-ok
+    if [ $? -eq 0 ] ; then
+        libvirt_type='kvm'
+    else
+        libvirt_type='qemu'
+    fi
+
+    sed -i "s/$libvirt_type/kvm/g" /etc/nova/nova-compute.conf
+
     # restart all of nova services
     cd /etc/init.d/; for i in $( ls nova-* ); do sudo service $i restart; done
 
@@ -488,10 +497,10 @@ function compute_nova_setup() {
 # --------------------------------------------------------------------------------------
 function compute_nova_setup_nova_network() {
     # install dependency packages
-    install_package vlan bridge-utils kvm libvirt-bin pm-utils sysfsutils
+    install_package vlan bridge-utils kvm libvirt-bin pm-utils sysfsutils cpu-checker
     restart_service dbus
     sleep 3
-    #virsh net-destroy default
+    virsh net-destroy default
     virsh net-undefine default
 
     # enable live migration
@@ -649,5 +658,12 @@ function openvswitch_setup() {
     # create bridge interfaces
     ovs-vsctl add-br br-int
     ovs-vsctl add-br br-ex
+
+    sed -i 's/iface eth2 inet dhcp/iface eth2 inet manual/g' /etc/network/interfaces
+    echo 'up ifconfig $IFACE 0.0.0.0 up' >> /etc/network/interfaces
+    echo 'up ip link set $IFACE promisc on' >> /etc/network/interfaces
+    echo 'down ip link set $IFACE promisc off' >> /etc/network/interfaces
+    echo 'down ifconfig $IFACE down' >> /etc/network/interfaces
+
     ovs-vsctl add-port br-ex ${PUBLICNETWORK_NIC_NETWORK_NODE}
 }
